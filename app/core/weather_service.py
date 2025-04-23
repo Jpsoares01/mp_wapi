@@ -5,7 +5,8 @@ from app.core.config import settings
 BASE_URL = settings.BASE_URL
 
 async def _fetch_weather_for_date(client: httpx.AsyncClient, city: str, params: dict, date: datetime) -> dict:
-    url = f"{BASE_URL}/{city}/{date.strftime('%Y-%m-%d')}"
+    url = f"{BASE_URL.rstrip('/')}/{city}/{date.strftime('%Y-%m-%d')}"
+    print(BASE_URL)
     
     response = await client.get(url, params=params)
     response.raise_for_status()
