@@ -24,6 +24,20 @@ async def _fetch_forecast(client: httpx.AsyncClient, city: str, params: dict) ->
     return forecast_data
 
 
+def search_weather_at_hour(data: dict, current_hour: str) -> dict:
+    for hour in data["days"][0]["hours"]:
+        if hour["datetime"] == current_hour:
+            data["days"][0]["hours"] = [hour]
+            return data
+        
+
+def search_weather_at_days(data: dict, current_day: str) -> dict:
+    for day in data["days"]:
+        if day["datetime"] == current_day:
+            data["days"] = [day]
+            return data
+
+
 def _parse_weather_response(data: dict) -> dict:
     weather_info = {
         "Address": data["resolvedAddress"],
